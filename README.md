@@ -57,7 +57,7 @@ There are four Visual Studio solutions that are involved in building this add-in
 
 2. **CustomActionOutlookHeadersInstaller** Solution (`CustomActionOutlookHeadersInstaller.sln` file) was originally designed and built in `Visual Studio 2010 v.10.0`
 
-   This solution contains the `CustomActionOutlookHeadersInstaller` project with the code for the custom actions for the MSI installer. It is written in C#. The project requires the following references to interface with the WiX installer:
+   This solution contains the `CustomActionOutlookHeadersInstaller` project with the code for the [custom actions](https://docs.microsoft.com/en-us/windows/win32/msi/custom-actions) for the MSI installer. It is written in C#. The project requires the following references to interface with the WiX installer:
    
     - `Microsoft.Deployment.WindowsInstaller` (included in the [WiX Toolset](https://wixtoolset.org/) library)
    
