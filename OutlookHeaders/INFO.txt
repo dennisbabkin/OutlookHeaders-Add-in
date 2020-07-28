@@ -1,0 +1,53 @@
+Outlook Headers Add-in
+Version 1.0.2
+"Outlook add-in for modifying mail headers & outbound emails."
+Requires: Microsoft Outlook 2007 for Windows, or later
+www.dennisbabkin.com
+[Copyright (C) 2020]
+
+Release Date: July 27, 2020
+
+
+DESCRIPTION:
+================
+OutlookHeaders is a simple Microsoft Outlook add-in for Windows that allows to adjust your outbound email messages and http headers.
+
+
+COMPATIBILITY:
+================
+Microsoft Outlook 2007 for Windows, or later
+.NET Framework v. 3.5
+
+
+LICENSE:
+========
+Freeware.
+
+You may use this software for as long as you need it, make as many copies of the downloaded package as required, and distribute it among any people and organizations at no cost.
+
+You are NOT ALLOWED to modify or rename any parts of the downloaded package and/or the manual within it; distribute it under a different title and/or author's name; repackage or re-distribute separate components of the downloaded package; sell, rent or receive any financial gain from this software.
+
+
+DISCLAIMER:
+===========
+The authors of this web site and of this particular software guarantee that this computer program does not contain any intentionally deleterious or harmful material that may somehow adversely affect your system. All software posted on this web site is custom-built computer programs that were designed primarily for our personal use. We test it for some time before posting it here. In spite of that and due to the fact that we are human, we do not exclude a possibility for this software to contain errors and unintended bugs that may present misinformation in programmatic sense and/or may temporarily affect your computer's stability. If such is the case, let us know through the feedback on this site and we will do our best to correct the problem and supply you with the latest update. 
+
+And last, by downloading and using this software you agree to do so "as is" without any implied or expressed liability from the authors and/or distributors of this software. 
+
+
+
+
+Another copy of this software is available to download at:
+www.dennisbabkin.com/olh
+
+
+Thank you for choosing our software!
+
+
+
+
+
+
+
+
+
