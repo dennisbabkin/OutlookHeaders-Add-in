@@ -53,7 +53,7 @@ There are four Visual Studio solutions that are involved in building this add-in
     - `Office`
     - `System.AddIn`
     
-   The `OutlookHeaders` project in this solution had the `Post-Build` event that would sign the resulting `OutlookHeaders.dll`, as the `$(TargetPath)` file, with our code-signing certificate. So to use it in Outlook, you will need to provide your own code-signing certificate to digitally sign it. Without digitally signing your add-in Microsoft Office may refuse to load your add-in. For organizations, I believe there is a [way to self-sign your office add-ins](https://docs.microsoft.com/en-us/visualstudio/vsto/how-to-sign-office-solutions?view=vs-2019).
+   The `OutlookHeaders` project in this solution had the `Post-Build` event that would sign the resulting `OutlookHeaders.dll`, as the `$(TargetPath)` file, with our code-signing certificate. Thus, to be able to load it into the Outlook without seeing a security warning, you will need to provide your own code-signing certificate to digitally sign it. Without digitally signing your add-in Microsoft Office may refuse to load your add-in. For organizations, I believe there is a [way to self-sign your office add-ins](https://docs.microsoft.com/en-us/visualstudio/vsto/how-to-sign-office-solutions?view=vs-2019).
 
 2. **CustomActionOutlookHeadersInstaller** Solution (`CustomActionOutlookHeadersInstaller.sln` file) was originally designed and built in Visual Studio 2010 v.10.0
 
