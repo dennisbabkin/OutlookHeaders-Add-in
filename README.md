@@ -41,7 +41,7 @@ The original intentions of making this add-in was to make it backward compatible
 
 There are four Visual Studio solutions that are involved in building this add-in. Each has to be built in this particular order:
 
-1. **OutlookHeaders** Solution (`OutlookHeaders.sln` file) was originally designed and built in `Visual Studio 2008, SP1 v.9.0`.
+1. **OutlookHeaders** Solution (`OutlookHeaders.sln` file) was originally designed and built in `Visual Studio 2008, SP1 v.9.0`
 
    This solution contains the `OutlookHeaders` project with the actual code for this add-in. It's written in C#. This project requires the following references to be able to work with the Office components:
    
@@ -55,7 +55,7 @@ There are four Visual Studio solutions that are involved in building this add-in
     
    The `OutlookHeaders` project in this solution had the `Post-Build` event that would sign the resulting `OutlookHeaders.dll`, as the `$(TargetPath)` file, with our code-signing certificate. Thus, to be able to load it into the Outlook without seeing a security warning, you will need to provide your own code-signing certificate to digitally sign it. Without digitally signing your add-in Microsoft Office may refuse to load your add-in. For organizations, I believe there is a [way to self-sign your office add-ins](https://docs.microsoft.com/en-us/visualstudio/vsto/how-to-sign-office-solutions?view=vs-2019).
 
-2. **CustomActionOutlookHeadersInstaller** Solution (`CustomActionOutlookHeadersInstaller.sln` file) was originally designed and built in Visual Studio 2010 v.10.0
+2. **CustomActionOutlookHeadersInstaller** Solution (`CustomActionOutlookHeadersInstaller.sln` file) was originally designed and built in `Visual Studio 2010 v.10.0`
 
    This solution contains the `CustomActionOutlookHeadersInstaller` project with the code for the custom actions for the MSI installer. It is written in C#. The project requires the following references to interface with the WiX installer:
    
@@ -63,7 +63,7 @@ There are four Visual Studio solutions that are involved in building this add-in
    
    The `CustomActionOutlookHeadersInstaller` project in this solution had the `Post-Build` event that would sign the resulting `CustomActionOutlookHeadersInstaller.CA.dll`, as the `$(TargetDir)$(TargetName).CA$(TargetExt)` file, with our code-signing certificate. This signature was provided only to establish the end-user trust and is not required for this add-in to be loaded into Microsoft Office.
    
-3. **OutlookHeadersInstaller** Soltution (`OutlookHeadersInstaller.sln` file) was originally designed and built in Visual Studio 2010 v.10.0 as a `Setup Project` build with the use of the [WiX Toolset](https://wixtoolset.org/) library.
+3. **OutlookHeadersInstaller** Soltution (`OutlookHeadersInstaller.sln` file) was originally designed and built in `Visual Studio 2010 v.10.0` as a `Setup Project` build with the use of the [WiX Toolset](https://wixtoolset.org/) library.
 
    This solution contains the `OutlookHeadersInstaller` project with the `Windows Installer XML` markup to build the main MSI installer for this add-in. The project requires the following references to the WiX library components:
    
@@ -72,7 +72,7 @@ There are four Visual Studio solutions that are involved in building this add-in
 
    The `OutlookHeadersInstaller` project in this solution had the `Post-Build` event that would sign the resulting `OutlookHeadersInstaller.msi`, as the `$(TargetPath)` file, with our code-signing certificate. (Only SHA-1 signature was used to provide compatibility with MSI signing limitations.) This signature was provided only to establish the end-user trust and is not required for this add-in to be loaded into Microsoft Office.
 
-4. **BootstrapperOutlookHeaders** Soltution (`BootstrapperOutlookHeaders.sln` file) was originally designed and built in Visual Studio 2010 v.10.0 as a `Bootstrapper Project` build with the use of the [WiX Toolset](https://wixtoolset.org/) library.
+4. **BootstrapperOutlookHeaders** Soltution (`BootstrapperOutlookHeaders.sln` file) was originally designed and built in `Visual Studio 2010 v.10.0` as a `Bootstrapper Project` build with the use of the [WiX Toolset](https://wixtoolset.org/) library.
 
    This solution contains the `BootstrapperOutlookHeaders` project with the XML markup to build the Bootstrapper installer for this add-in to be able to install needed prerequisite components (listed above). The project requires the following references to the WiX library components:
    
