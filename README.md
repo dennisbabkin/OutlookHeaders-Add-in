@@ -105,4 +105,4 @@ The reason we're building several versions of the installer is to provide for di
 --------------
 
 
-Submit suggestions & bug reports [here](https://www.dennisbabkin.com/sfb/?what=info&name=OutlookHeaders+Add-in+Github).
+Submit suggestions & bug reports [here](https://www.dennisbabkin.com/sfb/?what=info&name=OutlookHeaders+Add-in&ver=Github).
