@@ -19,7 +19,7 @@ Overall this add-in can do the following:
 
 ### Screenshot
 
-![Alt text](https://dennisbabkin.com/php/imgs2/scrsht_olh_05.png "ShutdownWithUpdates window")
+![Alt text](https://dennisbabkin.com/php/imgs2/scrsht_olh_05.png "'Customize Outbound Mail' window")
 
 ### Manual
 
