@@ -97,7 +97,7 @@ The reason we're building several versions of the installer is to provide for di
 
 - The bootstrapper installer (labeled for end-users as "Bundled Installer") is an easy way to install the add-in with a possibility to download and install all needed prerequisited in a single UI package.
 
-- The standalone MSI installer is designed to support non-interactive installation on multiple workstations, such as on an Active Directory via Group Policy Objects.
+- The standalone MSI installer is a light-weight version, that was designed to support non-interactive installation on multiple workstations, such as Microsoft Active Directory, via Group Policy Objects.
 
 [Check here](https://dennisbabkin.com/php/docs.php?what=olh&ver=1.0.2#installation) for details of the installation.
 
