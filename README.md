@@ -39,7 +39,7 @@ If you don't want to build and code-sign this add-in yourself, you can download 
 
 The original intentions of making this add-in was to make it backward compatible with older versions of Microsoft Office. (The earliest I chose was Office 2007.) That is why to build this add-in I had to use older versions of the Visual Studio and the .NET Framework.
 
-There are 4 Visual Studio projects that are involved in building it. Each has to be built in this particular order:
+There are four Visual Studio solutions that are involved in building this add-in. Each has to be built in this particular order:
 
 1. **OutlookHeaders** Solution (`OutlookHeaders.sln` file) was originally designed and built in `Visual Studio 2008, SP1 v.9.0`.
 
