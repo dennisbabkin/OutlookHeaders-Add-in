@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+
+  <!--
+  
+    OutlookHeaders Add-in
+    "Outlook add-in for modifying mail headers & outbound emails."
+    Copyright (c) 2020 www.dennisbabkin.com
+    
+        https://dennisbabkin.com/olh
+    
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+        https://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+  
+  -->
+
+  
+
+  <!-- Current MSI build options -->
+
+  <!-- DO NOT use the 4th digit! -->
+  <?define VersionThis = "1.0.2" ?>
+
+  <!-- Previous & current versions of this installer:
+       INFO: Must be changed for every version!
+        {6CE15127-CA5B-4E3F-A287-F0B744F5B0BB} = v.1.0.0
+        {3E4C599B-ADEE-46C7-90AE-613AA83895E7} = v.1.0.1
+        {0E485C53-878D-4506-B661-8FDF17AAA8F2} = v.1.0.2
+  -->
+  <?define ProductCode = "{0E485C53-878D-4506-B661-8FDF17AAA8F2}" ?>
+
+  <!-- Set 'AllUsers' to 1 to build MSI for all-users, or to 0 - to build it for the "current" user only -->
+  <?define AllUsers = 1 ?>
+
+  
+  <!-- 
+    Command line parameters that can be specified from outside via MSIEXEC:
+    
+    1. To install using UI:
+    
+       msiexec.exe /i OutlookHeadersInstaller.msi IMPORTDATA="path-to\export.ohxml" STARTUPFLAGS=1
+    
+    2. To install silently (must be running as admin):
+    
+       msiexec.exe /q /i OutlookHeadersInstaller.msi IMPORTDATA="path-to\export.ohxml"
+
+    3. To uninstall:
+    
+       msiexec.exe /q /x OutlookHeadersInstaller.msi
+       
+    4. Additionally, you can place IMPORTDATA.ohxml file into the same folder as this MSI to import it, or
+       place a text file STARTUPFLAGS.txt or just STARTUPFLAGS with the flags inside as a decimal text value
+       to apply start-up flags.
+  -->
+
+  
+  <!--
+  SOURCE:
+      https://docs.microsoft.com/en-us/archive/blogs/gsmyth/wix-installer-for-vsto-projects
+      https://docs.microsoft.com/en-us/visualstudio/vsto/registry-entries-for-vsto-add-ins?redirectedfrom=MSDN&view=vs-2019
+      https://docs.microsoft.com/en-us/archive/blogs/gsmyth/add-in-for-64-and-32-bit-office
+      
+  -->
+
+
+  <?define CompanyThis = "www.dennisbabkin.com" ?>
+  <?define ProductThis = "OutlookHeaders" ?>
+
+  <?if $(var.AllUsers) != 1 ?>
+  <?define ProductThisName = "$(var.ProductThis) (Per-user)" ?>
+  <?else?>
+  <?define ProductThisName = "$(var.ProductThis) (All-users)" ?>
+  <?endif?>
+
+  <?define ProductFullName = $(var.ProductThisName) v.$(var.VersionThis) ?>
+  <?define AppDescr = $(var.ProductFullName) - Microsoft Office Add-in ?>
+
+  <!-- DO NOT CHANGE!!! It must remain the same for all versions! -->
+  <?define UpgradeCode = "{2A043C64-A0DB-45E1-9CE3-24B3817E4B1A}" ?>
+
+  <?if $(var.ThisBuild) != "Release" ?>
+  <!-- ALWAYS BUILD AS A RELEASE CONFIGURATION! -->
+  <?error "Build it as a Release configuration!"?>
+  <?endif?>
+
+  <!-- Paths where to take source files for installation -->
+  <?define SourceFldr = "..\..\..\OutlookHeaders\bin\$(var.Configuration)\" ?>
+  <?define SourceFldrCA = "..\..\CustomActionOutlookHeadersInstaller\CustomActionOutlookHeadersInstaller\bin\Release\" ?>
+  <?define SourceFldrAppRnr = "..\..\AppRunnerOutlookHeadersInstaller\AppRunnerOutlookHeadersInstaller\bin\Release\" ?>
+
+  <!-- Set 'Build64bit' to 1 to build MSI for 64-bit Outlook, or to 0 - for 32-bit version (Used only if 'AllUsers' == 1) -->
+  <?define Build64bit = 0 ?>
+
+
+
+
+  <?if $(var.AllUsers) != 1 ?>
+
+  <!-- Current user - always x86 -->
+  <?define x64Reg = "no" ?>
+  <?define BldPlatform = "x86" ?>
+  
+  <?else?>
+
+  <!-- ALL-USERS -->
+  <?if $(var.Build64bit) = 1 ?>
+  
+  <!-- 64-bit -->
+  <?define x64Reg = "yes" ?>
+  <?define BldPlatform = "x64" ?>
+  
+  <?else?>
+  
+  <!-- 32-bit -->
+  <?define x64Reg = "no" ?>
+  <?define BldPlatform = "x86" ?>
+  
+  <?endif?>
+
+  <?endif?>
+
+
+  <Product Id="$(var.ProductCode)" Name="$(var.ProductFullName)" Language="1033" Version="$(var.VersionThis)" Manufacturer="$(var.CompanyThis)" UpgradeCode="$(var.UpgradeCode)">
+
+    <!-- Make sure to specify 'perMachine' installation for either type of MSIs! It is needed to request elevation for the installer. -->
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="$(var.BldPlatform)"
+             SummaryCodepage="1252" Keywords="Installer"
+             Description="$(var.ProductFullName) Installer"
+             Comments='Copyright (C) dennisbabkin.com. All rights reserved.'
+             Manufacturer='$(var.CompanyThis)'/>
+
+
+    <!-- Additional properties for the installer package -->
+    <Property Id="ARPCOMMENTS" Value="$(var.AppDescr)" Secure="yes" />
+    <Property Id="ARPCONTACT" Value="https://dennisbabkin.com/contact" Secure="yes" />
+    <Property Id="ARPHELPLINK" Value="https://dennisbabkin.com/php/docs.php?what=olh&amp;ver=$(var.VersionThis)" Secure="yes" />
+    <Property Id="ARPURLINFOABOUT" Value="https://dennisbabkin.com/olh" Secure="yes" />
+
+    <!-- Make update link based on the installer type: 1=per-user, 2=all-users, 3=bundled -->
+    <?if $(var.AllUsers) != 1 ?>
+      <SetProperty Id="ARPURLUPDATEINFO" Before="LaunchConditions" Sequence="execute" Value="https://dennisbabkin.com/php/update.php?name=olh&amp;ver=$(var.VersionThis)&amp;t=1"></SetProperty>
+    <?else?>
+      <SetProperty Id="ARPURLUPDATEINFO" Action="a0" Before="LaunchConditions" Sequence="execute" Value="https://dennisbabkin.com/php/update.php?name=olh&amp;ver=$(var.VersionThis)&amp;t=2">
+        <![CDATA[not BUNDLE_INST = 1]]>
+      </SetProperty>
+      <SetProperty Id="ARPURLUPDATEINFO" Action="a1" Before="LaunchConditions" Sequence="execute" Value="https://dennisbabkin.com/php/update.php?name=olh&amp;ver=$(var.VersionThis)&amp;t=3">
+        <![CDATA[BUNDLE_INST = 1]]>
+      </SetProperty>
+    <?endif?>
+
+    <Property Id="IMPORTDATA" Secure="yes" />
+    <Property Id="STARTUPFLAGS" Secure="yes" />
+
+    
+    
+    <Property Id='DiskPrompt' Value="$(var.ProductFullName) Installation [1]" />
+    
+    <MajorUpgrade DowngradeErrorMessage="Cannot continue installation of [ProductName]. A newer version is already installed..." />
+    <MediaTemplate EmbedCab="yes" />
+   
+    <!-- Check that .NET 3.5 is installed - otherwise fail -->
+    <PropertyRef Id="NETFRAMEWORK35"/>
+    <Condition Message="$(var.AppDescr) requires .NET Framework 3.5. You can get it from: dennisbabkin.com/r/net35">
+      <![CDATA[Installed OR NETFRAMEWORK35]]>
+    </Condition>
+
+    <!-- Check that at least Outlook 2007 is installed -->
+    <Property Id="OUTLOOKINST">
+      <RegistrySearch Id="idOutlookRegK" Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\OUTLOOK.EXE" Name="Path" Type="raw" />
+    </Property>
+    <Condition Message="This add-in requires Microsoft Office Outlook 2007, or later.">
+      <![CDATA[Installed OR (OUTLOOKINST)]]>
+    </Condition>
+
+    <!-- Check if we have Office 2007 installed -->
+    <Property Id="OFFICE2007INST">
+      <RegistrySearch Id="idOffice2007RegK" Root="HKLM" Key="SOFTWARE\Microsoft\Office\12.0\Outlook\InstallRoot" Name="Path" Type="raw" />
+    </Property>
+    
+    <!-- 
+        Check that VSTO 2010 Tools for Office Runtime for .NET 3.5 is installed. (Note that we need it only for Office 2007):
+        https://docs.microsoft.com/en-us/archive/blogs/gsmyth/wix-installer-for-vsto-projects
+        https://stackoverflow.com/questions/2799941/how-to-determine-if-vsto-2010-runtime-is-installed
+    -->
+    <Property Id="VSTOINST1">
+      <RegistrySearch Id="idVsto1" Root="HKLM" Key="SOFTWARE\Microsoft\VSTO Runtime Setup\v4R" Name="VSTORFeature_CLR35" Type="raw" Win64="$(var.x64Reg)" />
+    </Property>
+    <Condition Message="Visual Studio 2010 Tools for Office Runtime 3.5 is not installed. You can get it from: dennisbabkin.com/r/vsto2010">
+      <![CDATA[Installed OR (VSTOINST1 OR NOT OFFICE2007INST)]]>
+    </Condition>
+
+    <?if $(var.AllUsers) != 1 ?>
+    <!-- Check if bundled installer - we can't use per-user MSI there! -->
+    <Condition Message="ERROR: (1155) Can't install per-user MSI from a bundle. Contact developers at $(var.CompanyThis)">not BUNDLE_INST = 1</Condition>
+    <?endif?>
+
+
+    <?if $(var.AllUsers) != 1 ?>
+
+    <!-- Current user -->
+    <!-- INFO: We're adding a user name here since if we install in [LocalAppDataFolder] then Outlook will show "an unknown add-in" warning even if our add-in is signed by our code signing cert.
+               Such warning doesn't seem to be shown if we place everything into the Program Files folder.
+    -->
+    <SetProperty Id="INSTALLFOLDER" Value="[ProgramFilesFolder]\dennisbabkin.com\[LogonUser]\$(var.ProductThis)\" Before="AppSearch" />
+    <?define InstUsrName = "[LogonUser]" ?>
+
+    <?else?>
+
+    <!-- ALL-USERS -->
+    <SetProperty Id="INSTALLFOLDER" Value="[ProgramFilesFolder]\dennisbabkin.com\$(var.ProductThis)\" Before="AppSearch" />
+    <?define InstUsrName = "" ?>
+
+    <?endif?>
+
+    
+
+    <!-- Installed files needed for the add-in -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="INSTALLFOLDER" Name="-">
+
+        <Component Id='CompID_Microsoft.Office.Interop.Outlook.dll' Guid='{CAD3ABA6-3196-4A32-A15B-ED256B798729}'>
+          <File Id='id_Microsoft.Office.Interop.Outlook.dll' Name='Microsoft.Office.Interop.Outlook.dll' DiskId='1' Source='$(var.SourceFldr)' Vital='yes' KeyPath='yes' />
+        </Component>
+
+        <Component Id='CompID_Microsoft.Office.Interop.SmartTag.dll' Guid='{24F70602-FB5C-4DAE-BA5A-BB0B69C9D20C}'>
+          <File Id='id_Microsoft.Office.Interop.SmartTag.dll' Name='Microsoft.Office.Interop.SmartTag.dll' DiskId='1' Source='$(var.SourceFldr)' Vital='yes' KeyPath='yes' />
+        </Component>
+
+        <Component Id='CompID_Microsoft.Office.Tools.Outlook.v9.0.dll' Guid='{7DDA00E9-2C15-4B19-AD95-C24039985272}'>
+          <File Id='id_Microsoft.Office.Tools.Outlook.v9.0.dll' Name='Microsoft.Office.Tools.Outlook.v9.0.dll' DiskId='1' Source='$(var.SourceFldr)' Vital='yes' KeyPath='yes' />
+        </Component>
+
+        <Component Id='CompID_Microsoft.Vbe.Interop.Forms.dll' Guid='{24BA0F20-9900-42B2-9359-8C27AB3F0E66}'>
+          <File Id='id_Microsoft.Vbe.Interop.Forms.dll' Name='Microsoft.Vbe.Interop.Forms.dll' DiskId='1' Source='$(var.SourceFldr)' Vital='yes' KeyPath='yes' />
+        </Component>
+
+        <Component Id='CompID_Office.dll' Guid='{D213DD92-511F-416F-BCCE-D481DEEB213D}'>
+          <File Id='id_Office.dll' Name='Office.dll' DiskId='1' Source='$(var.SourceFldr)' Vital='yes' KeyPath='yes' />
+        </Component>
+
+        <Component Id='CompID_OutlookHeaders.dll' Guid='{060DEB41-C0CE-4929-B1BF-EEB6B84FD0D5}'>
+          <File Id='id_OutlookHeaders.dll' Name='OutlookHeaders.dll' DiskId='1' Source='$(var.SourceFldr)' Vital='yes' KeyPath='yes' />
+        </Component>
+
+        <Component Id='CompID_OutlookHeaders.dll.config' Guid='{87A744A1-EC6E-4807-A4B7-7AEFD6247217}'>
+          <File Id='id_OutlookHeaders.dll.config' Name='OutlookHeaders.dll.config' DiskId='1' Source='$(var.SourceFldr)' Vital='yes' KeyPath='yes' />
+        </Component>
+
+        <Component Id='CompID_OutlookHeaders.dll.manifest' Guid='{0BA5DC2C-C2BD-4329-AD9D-CDCDFAF7FF9E}'>
+          <File Id='id_OutlookHeaders.dll.manifest' Name='OutlookHeaders.dll.manifest' DiskId='1' Source='$(var.SourceFldr)' Vital='yes' KeyPath='yes' />
+        </Component>
+
+        <Component Id='CompID_OutlookHeaders.vsto' Guid='{64011751-720C-41F0-B2D0-46730D3877D8}'>
+          <File Id='id_OutlookHeaders.vsto' Name='OutlookHeaders.vsto' DiskId='1' Source='$(var.SourceFldr)' Vital='yes' KeyPath='yes' />
+        </Component>
+
+      </Directory>
+
+
+
+      <!-- Registry settings to register this add-in with Outlook -->
+      <?if $(var.AllUsers) != 1 ?>
+      
+      <!-- Current user -->
+      <Component Id="RegistryRegAddin" Guid="{CE9E9B9C-EA58-4CB4-8EC0-DF00EF91DCA4}">
+        <RegistryKey Id="RegKey_AddIn" Root="HKCU" Key="Software\Microsoft\Office\Outlook\Addins\$(var.ProductThis)" ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
+          
+          <RegistryValue Type="string" Name="Description" Value="$(var.AppDescr)" />
+          <RegistryValue Type="string" Name="FriendlyName" Value="$(var.ProductThis)" />
+          <RegistryValue Type="integer" Name="LoadBehavior" Value="3" />
+          <RegistryValue Type="string" Name="Manifest" Value="[INSTALLFOLDER]OutlookHeaders.vsto|vstolocal" />
+
+          <!-- Our own setting to let the add-in know which installer type was used -->
+          <RegistryValue Type="integer" Name="InstallerUsrType" Value="1" />
+          <RegistryValue Type="string" Name="InstallerBundle" Value="[BUNDLE_INST]" />
+
+        </RegistryKey>
+      </Component>
+
+      <?else?>
+      
+      <!-- ALL-USERS -->
+      <Component Id="RegistryRegAddin" Guid="{8ECF34CD-7795-43FB-A236-A29DE7A5893F}" Win64="$(var.x64Reg)">
+        <RegistryKey Id="RegKey_AddIn" Root="HKLM" Key="Software\Microsoft\Office\Outlook\Addins\$(var.ProductThis)" ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
+
+          <RegistryValue Type="string" Name="Description" Value="$(var.AppDescr)" />
+          <RegistryValue Type="string" Name="FriendlyName" Value="$(var.ProductThis)" />
+          <RegistryValue Type="integer" Name="LoadBehavior" Value="3" />
+          <RegistryValue Type="string" Name="Manifest" Value="[INSTALLFOLDER]OutlookHeaders.vsto|vstolocal" />
+
+          <!-- 
+            Our own setting to let the add-in know which installer type was used.
+            In this case, if we're installing from a Bundle (or from the Bootstrapper), BUNDLE_INST property will be set to 1.
+            Otherwise it will be empty.
+            -->
+          <RegistryValue Type="integer" Name="InstallerUsrType" Value="2" />
+          <RegistryValue Type="string" Name="InstallerBundle" Value="[BUNDLE_INST]" />
+
+        </RegistryKey>
+      </Component>
+
+      <!-- This is needed only for Office 2007 when the add-in is installed in the HKLM registry hive -->
+      <Component Id="RegistryKeyOffice2007" Guid="{D5ADEAA4-FA80-458E-8169-A68A6B76BD27}">
+        <Condition><![CDATA[OFFICE2007INST]]></Condition>
+        <RegistryKey Root="HKLM" Key="Software\Microsoft\Office\12.0\Common\General">
+          <RegistryValue Name="EnableLocalMachineVSTO" Value="1" Type="integer" KeyPath="yes" />
+        </RegistryKey>
+      </Component>
+
+      <?endif?>
+
+      
+    </Directory>
+
+
+    <!-- Which components we're installing and in what order. So technically for this simplified MSI we'll have only one "feature" that's installed by default. -->
+    <Feature Id="ProductFeature" Title="$(var.ProductThisName)" Level="1">
+
+      <ComponentRef Id="CompID_Microsoft.Office.Interop.Outlook.dll" />
+      <ComponentRef Id="CompID_Microsoft.Office.Interop.SmartTag.dll" />
+      <ComponentRef Id="CompID_Microsoft.Office.Tools.Outlook.v9.0.dll" />
+      <ComponentRef Id="CompID_Microsoft.Vbe.Interop.Forms.dll" />
+      <ComponentRef Id="CompID_Office.dll" />
+      <ComponentRef Id="CompID_OutlookHeaders.dll" />
+      <ComponentRef Id="CompID_OutlookHeaders.dll.config" />
+      <ComponentRef Id="CompID_OutlookHeaders.dll.manifest" />
+      <ComponentRef Id="CompID_OutlookHeaders.vsto" />
+
+      <ComponentRef Id='RegistryRegAddin' />
+
+      <?if $(var.AllUsers) = 1 ?>
+      <ComponentRef Id='RegistryKeyOffice2007' />
+      <?endif?>
+      
+    </Feature>
+
+
+    <!-- 
+      The following is needed to copy & delete registry values for the add-in registration for the 64-bit Outlook:
+        https://docs.microsoft.com/en-us/archive/blogs/gsmyth/add-in-for-64-and-32-bit-office
+      This also needs new reference: WixUtilExtension in our project
+    -->
+    <Property Id="CA_CopyRegKey64" Value='"reg.exe" copy "HKLM\Software\WoW6432Node\Microsoft\Office\Outlook\Addins\$(var.ProductThis)" "HKLM\Software\Microsoft\Office\Outlook\Addins\$(var.ProductThis)" /s /f /reg:64' />
+    <CustomAction Id="CA_CopyRegKey64" Execute="deferred" Return="ignore" Impersonate="no" BinaryKey="WixCA" DllEntry="CAQuietExec" />
+
+    <Property Id="CA_DeleteRegKey64" Value='"reg.exe" delete "HKLM\Software\Microsoft\Office\Outlook\Addins\$(var.ProductThis)" /f /reg:64' />
+    <CustomAction Id="CA_DeleteRegKey64" Execute="deferred" Return="ignore" Impersonate="no" BinaryKey="WixCA" DllEntry="CAQuietExec" />
+    
+    
+
+    <!--
+        Custom actions that will execute our managed C# code from the DLL that is built in the CustomActionOutlookHeadersInstaller project.
+        We'll also need to pass into it our installation parameters. Unfortunately we have only one property to do that.
+        So we'll have to pack all parameters into it.
+    -->
+    <CustomAction Id="CA_SetProperties_Initialize" Property="idCA_FirstStage"
+                  Value="[Installed]|||[REINSTALL]|||[UPGRADINGPRODUCTCODE]|||[REMOVE]|||[INSTALLFOLDER]|||Software\Microsoft\Office\Outlook\Addins\$(var.ProductThis)|||$(var.InstUsrName)|||[BUNDLE_INST]|||[SourceDir]|||[IMPORTDATA]|||[STARTUPFLAGS]" />
+
+    <CustomAction Id="CA_SetProperties_Finalize" Property="idCA_LastStage" 
+                  Value="[Installed]|||[REINSTALL]|||[UPGRADINGPRODUCTCODE]|||[REMOVE]|||[INSTALLFOLDER]|||Software\Microsoft\Office\Outlook\Addins\$(var.ProductThis)|||$(var.InstUsrName)|||[BUNDLE_INST]|||[SourceDir]|||[IMPORTDATA]|||[STARTUPFLAGS]" />
+
+    <Binary Id="caBinDll" SourceFile="$(var.SourceFldrCA)CustomActionOutlookHeadersInstaller.CA.dll" />
+
+    <CustomAction Id="idCA_FirstStage" Impersonate="no" Execute="deferred" BinaryKey="caBinDll" DllEntry="caFirstStage" Return="check" />
+    <CustomAction Id="idCA_LastStage" Impersonate="no" Execute="deferred" BinaryKey="caBinDll" DllEntry="caLastStage" Return="check" />
+
+
+    <!-- Define order of execution of our custom actions -->
+    <InstallExecuteSequence>
+      <Custom Action='CA_SetProperties_Initialize' After='InstallInitialize'></Custom>
+      <Custom Action='idCA_FirstStage' After='CA_SetProperties_Initialize'></Custom>
+
+      <Custom Action='CA_SetProperties_Finalize' Before='InstallFinalize'></Custom>
+      <Custom Action='idCA_LastStage' After='CA_SetProperties_Finalize'></Custom>
+
+      <Custom Action='CA_CopyRegKey64' Before='idCA_LastStage'></Custom>
+      <Custom Action='CA_DeleteRegKey64' Before='RemoveFiles'></Custom>
+
+    </InstallExecuteSequence>
+
+    <!-- Lastly for simplicity this installer will not have any of its own UI, thus we won't specify any in here -->
+    
+  </Product>
+</Wix>
