@@ -61,7 +61,7 @@ There are four Visual Studio solutions that are involved in building this add-in
    
     - `Microsoft.Deployment.WindowsInstaller` (included in the [WiX Toolset](https://wixtoolset.org/) library)
    
-   The `CustomActionOutlookHeadersInstaller` project in this solution had the `Post-Build` event that would sign the resulting `CustomActionOutlookHeadersInstaller.CA.dll`, as the `$(TargetDir)$(TargetName).CA$(TargetExt)` file, with our code-signing certificate. This signature was provided only to establish the end-user trust and is not required for this add-in to be loaded into Microsoft Office.
+   The `CustomActionOutlookHeadersInstaller` project in this solution had the `Post-Build` event that would sign the resulting `CustomActionOutlookHeadersInstaller.CA.dll`, as the `$(TargetDir)$(TargetName).CA$(TargetExt)` file, with our code-signing certificate. This signature was provided only to establish end-user trust and is not required for this add-in to be loaded into Microsoft Office.
    
 3. **OutlookHeadersInstaller** Soltution (`OutlookHeadersInstaller.sln` file) was originally designed and built in `Visual Studio 2010 v.10.0` as a `Setup Project` build with the use of the [WiX Toolset](https://wixtoolset.org/) library v.3.7.
 
@@ -70,7 +70,7 @@ There are four Visual Studio solutions that are involved in building this add-in
     - `WixNetFxExtension`
     - `WixUtilExtension`
 
-   The `OutlookHeadersInstaller` project in this solution had the `Post-Build` event that would sign the resulting `OutlookHeadersInstaller.msi`, as the `$(TargetPath)` file, with our code-signing certificate. (Only SHA-1 signature was used to provide compatibility with MSI signing limitations.) This signature was provided only to establish the end-user trust and is not required for this add-in to be loaded into Microsoft Office.
+   The `OutlookHeadersInstaller` project in this solution had the `Post-Build` event that would sign the resulting `OutlookHeadersInstaller.msi`, as the `$(TargetPath)` file, with our code-signing certificate. (Only SHA-1 signature was used to provide compatibility with MSI signing limitations.) This signature was provided only to establish end-user trust and is not required for this add-in to be loaded into Microsoft Office.
 
 4. **BootstrapperOutlookHeaders** Soltution (`BootstrapperOutlookHeaders.sln` file) was originally designed and built in `Visual Studio 2010 v.10.0` as a `Bootstrapper Project` build with the use of the [WiX Toolset](https://wixtoolset.org/) library.
 
