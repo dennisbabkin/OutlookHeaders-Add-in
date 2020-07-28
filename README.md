@@ -43,7 +43,7 @@ There are four Visual Studio solutions that are involved in building this add-in
 
 1. **OutlookHeaders** Solution (`OutlookHeaders.sln` file) was originally designed and built in `Visual Studio 2008, SP1 v.9.0`.
 
-   This solution contains the `OutlookHeaders` project with the actual code for this add-in. It's written in C#. The project requires the following references to be able to work with the Office components:
+   This solution contains the `OutlookHeaders` project with the actual code for this add-in. It's written in C#. This project requires the following references to be able to work with the Office components:
    
     - `Microsoft.Office.Interop.Outlook`
     - `Microsoft.Office.Tools.Common.v9.0`
