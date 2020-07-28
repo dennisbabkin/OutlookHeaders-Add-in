@@ -80,7 +80,7 @@ There are four Visual Studio solutions that are involved in building this add-in
     - `WixNetFxExtension`
     - `WixUtilExtension`
     
-   The `BootstrapperOutlookHeaders` project in this solution had the `Post-Build` event that would de-construct and sign components of the resulting bootstrapped installer. This was necessary to pass the required authentication and is not necessary for this add-in to be loaded into Microsoft Office. The following commands were provided:
+   The `BootstrapperOutlookHeaders` project in this solution had the `Post-Build` event that would de-construct and sign components of the resulting bootstrapped installer. This was necessary to pass the required bootstrapper authentication of the `engine.exe` and is not necessary for this add-in to be loaded into Microsoft Office. The following commands were provided:
    
        del "%tmp%\engine.exe"
        "C:\Program Files (x86)\WiX Toolset v3.7\bin\insignia.exe" -ib "$(TargetFileName)" -o "%tmp%\engine.exe"
