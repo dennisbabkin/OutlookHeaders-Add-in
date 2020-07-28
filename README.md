@@ -65,7 +65,7 @@ There are four Visual Studio solutions that are involved in building this add-in
    
 3. **OutlookHeadersInstaller** Soltution (`OutlookHeadersInstaller.sln` file) was originally designed and built in `Visual Studio 2010 v.10.0` as a `Setup Project` build with the use of the [WiX Toolset](https://wixtoolset.org/) library v.3.7.
 
-   This solution contains the `OutlookHeadersInstaller` project with the `Windows Installer XML` markup to build the main MSI installer for this add-in. The project requires the following references to the WiX library components:
+   This solution contains the `OutlookHeadersInstaller` project with the `Windows Installer XML` markup to build the main MSI installer for this add-in, that provides code to install, uninstall, repair and upgrade it on client workstations. The project requires the following references to the WiX library components:
    
     - `WixNetFxExtension`
     - `WixUtilExtension`
