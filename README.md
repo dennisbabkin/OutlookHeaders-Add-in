@@ -8,15 +8,14 @@ OutlookHeaders is a simple Microsoft Outlook add-in for Windows that allows to a
 Overall this add-in can do the following:
 
 - Add arbitrary http headers to your outbound email messages.
-- Overwrite mail client name, so that your email doesn't appear that it came from Microsoft Outlook.
-- Suppress initial received: header, to prevent inclusion of the public IP address where the email was composed. (Outlook by default adds your public IP to every message.)
+- Overwrite mail client name, so that your email doesn't appear to have come from Microsoft Outlook.
+- Suppress initial `received:` header, to prevent inclusion of the public IP address where the email was composed. (Outlook by default adds your public IP to every message.)
 - Adjust the format of your replies and forwarded emails to plaintext, or HTML, regardless of the format of the original message.
 - At the same time, if adjusting the format of an email to HTML, this add-in allows to adjust the Cascading Style Sheets (or CSS) for it.
 - This add-in also allows to automatically remove the tracking pixel from your replies and forwarded emails for specific domains.
 - All options listed above can be applied per individual email account, or for all accounts in Outlook.
 - This add-in supports automated installation, which allows to set it up from a pre-configured file.
 - This add-in supports non-interactive installation in an Active Directory environment, or on a corporate network via Group Policy Objects (or GPOs.)
-- To provide transparency for the enterprise & corporate users, this project is available as open source.
 
 ### Screenshot
 
