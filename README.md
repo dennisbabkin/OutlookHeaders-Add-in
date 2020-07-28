@@ -91,6 +91,8 @@ There are four Visual Studio solutions that are involved in building this add-in
 
     where `command-to-code-sign` must be replaced with your own command to digitally code-sign that specific file.
     
+    *NOTE: This lame GitHub restriction doesn't allow me to push `vstor_redist.exe` via the web interface into `"OutlookHeaders\Installer\OutlookHeadersInstaller\OutlookHeadersInstaller\Sources"`, which is larger than 25MB. Download it yourself from [here](https://www.microsoft.com/en-us/download/details.aspx?id=56961).*
+    
 ### Installation
 
 The reason we're building several versions of the installer is to provide for different ways of application of this add-in:
